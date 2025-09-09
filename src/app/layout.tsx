@@ -14,8 +14,8 @@ const geistMono = geistMonoFont({
 });
 
 export const metadata: Metadata = {
-  title: "Daps AI",
-  description: "Your goto generative AI assistant"
+  title: "Rutalism",
+  description: "Admin Dashboard"
 };
 
 const RootLayout = ({

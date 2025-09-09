@@ -1,7 +1,7 @@
-import React from "react";
+// app/page.tsx
+import { ClientRoutes } from "@/constants/routes";
+import { redirect } from "next/navigation";
 
-const Home = () => {
-  return <div>Home</div>;
-};
-
-export default Home;
+export default function Home() {
+  redirect(ClientRoutes.LOGIN);
+}
