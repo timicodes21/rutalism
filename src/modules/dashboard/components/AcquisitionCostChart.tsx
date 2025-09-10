@@ -1,14 +1,13 @@
 "use client";
 
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
-  Area
+  ResponsiveContainer
 } from "recharts";
 
 const data = [
@@ -27,70 +26,82 @@ const AcquisitionCostChart = () => {
       <h2 className="text-xl font-semibold mb-4 px-3 md:px-6">
         Acquisition vs Cost
       </h2>
+
       <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={data}>
-          {/* Horizontal grid lines only */}
+        <AreaChart data={data}>
+          {/* gradient defs */}
+          <defs>
+            <linearGradient id="acquisitionFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.35} />
+              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+            </linearGradient>
+
+            <linearGradient id="costFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#10b981" stopOpacity={0.2} />
+              <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+
+          {/* horizontal grid lines only (anchored to the chart area) */}
           <CartesianGrid
             strokeDasharray="3 3"
             vertical={false}
             stroke="#e5e7eb"
           />
 
-          <XAxis dataKey="date" style={{ fontSize: 12 }} />
+          {/* X axis */}
+          <XAxis
+            dataKey="date"
+            tick={{ fontSize: 12, fill: "#6b7280" }}
+            axisLine={{ stroke: "#e5e7eb" }}
+            tickLine={{ stroke: "#e5e7eb" }}
+          />
+
+          {/* Left Y axis (acquisition) -> ticks every 100, axis/tick lines enabled */}
           <YAxis
             yAxisId="left"
             domain={[0, 800]}
             ticks={[0, 100, 200, 300, 400, 500, 600, 700, 800]}
-            style={{ fontSize: 12 }}
+            tick={{ fontSize: 12, fill: "#6b7280" }}
+            axisLine={{ stroke: "#e5e7eb" }}
+            tickLine={{ stroke: "#e5e7eb" }}
           />
+
+          {/* Right Y axis (cost) -> explicit ticks so they render */}
           <YAxis
             yAxisId="right"
             orientation="right"
             domain={[0, 6000]}
-            style={{ fontSize: 12 }}
+            ticks={[0, 1000, 2000, 3000, 4000, 5000, 6000]}
+            tick={{ fontSize: 12, fill: "#6b7280" }}
+            axisLine={{ stroke: "#e5e7eb" }}
+            tickLine={{ stroke: "#e5e7eb" }}
           />
 
-          <Tooltip />
+          <Tooltip wrapperStyle={{ fontSize: 12 }} />
 
-          {/* Gradient definition for the fill */}
-          <defs>
-            <linearGradient id="acquisitionFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
-              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-
-          {/* Fill Area under Acquisition line */}
+          {/* Area for acquisition (fills only under that line, inside chart bounds) */}
           <Area
             yAxisId="left"
             type="monotone"
             dataKey="acquisition"
-            stroke="none"
-            fill="url(#acquisitionFill)"
-          />
-
-          {/* Acquisition line */}
-          <Line
-            yAxisId="left"
-            type="monotone"
-            dataKey="acquisition"
             stroke="#3b82f6"
+            fill="url(#acquisitionFill)"
             strokeWidth={2}
-            dot={false}
-            name="Acquisition"
+            isAnimationActive={false}
           />
 
-          {/* Cost line */}
-          <Line
+          {/* Area for cost (optional) */}
+          <Area
             yAxisId="right"
             type="monotone"
             dataKey="cost"
             stroke="#10b981"
+            fill="url(#costFill)"
             strokeWidth={2}
-            dot={false}
-            name="Cost ($)"
+            isAnimationActive={false}
           />
-        </LineChart>
+        </AreaChart>
       </ResponsiveContainer>
     </div>
   );

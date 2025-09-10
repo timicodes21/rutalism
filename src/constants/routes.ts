@@ -17,5 +17,9 @@ export enum ClientRoutes {
   APPS = "/apps",
   CONTENT = "/content",
   USERS = "/users",
-  DOCUMENTATION = "/documentation"
+  DOCUMENTATION = "/documentation",
+  // Email Pages
+  EMAIL_INBOX = "/dashboard/apps/email/inbox",
+  EMAIL_READ = "/dashboard/apps/email/read",
+  EMAIL_COMPOSE = "/dashboard/apps/email/compose"
 }

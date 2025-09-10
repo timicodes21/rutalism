@@ -24,7 +24,7 @@ const MobileSidebar = ({ open, setOpen }: IProps) => {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild className="absolute top-4 left-4 md:hidden z-50">
+      <SheetTrigger asChild className="absolute top-4 right-4 md:hidden z-50">
         <Button size="icon" variant="ghost">
           <Menu className="w-6 h-6" />
         </Button>
