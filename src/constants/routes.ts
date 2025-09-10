@@ -1,5 +1,5 @@
 export enum ApiRoutes {
-  CHAT_COMPLETIONS = "https://api.openai.com/v1/chat/completions"
+  LOGIN = "/auth/login"
 }
 
 export enum ClientRoutes {

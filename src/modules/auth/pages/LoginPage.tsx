@@ -15,7 +15,13 @@ import { Label } from "@/components/ui/label";
 import { useLogin } from "../hooks/login.hook";
 
 const LoginPage = () => {
-  const { loading, handleSubmit } = useLogin();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    loading,
+    onSubmit
+  } = useLogin();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -28,7 +34,8 @@ const LoginPage = () => {
             Sign in to your account
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <CardContent className="space-y-4">
             {/* Email */}
             <div className="space-y-2">
@@ -37,10 +44,16 @@ const LoginPage = () => {
                 id="email"
                 type="email"
                 placeholder="you@example.com"
-                required
                 className="bg-card"
+                {...register("email")}
               />
+              {errors.email && (
+                <p className="text-sm text-destructive">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
+
             {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
@@ -48,11 +61,17 @@ const LoginPage = () => {
                 id="password"
                 type="password"
                 placeholder="********"
-                required
                 className="bg-card"
+                {...register("password")}
               />
+              {errors.password && (
+                <p className="text-sm text-destructive">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
           </CardContent>
+
           <CardFooter className="flex flex-col gap-4">
             <Button
               type="submit"
