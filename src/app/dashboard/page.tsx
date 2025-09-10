@@ -1,8 +1,6 @@
-import DashboardPage from "@/modules/dashboard/pages/DashboardPage";
-import React from "react";
+import { ClientRoutes } from "@/constants/routes";
+import { redirect } from "next/navigation";
 
-const Dashboard = () => {
-  return <DashboardPage />;
-};
-
-export default Dashboard;
+export default function Dashboard() {
+  redirect(ClientRoutes.MARKETING);
+}

@@ -19,6 +19,7 @@ import {
   Blocks,
   LucideIcon
 } from "lucide-react";
+import { ClientRoutes } from "./routes";
 
 interface NavLinkChild {
   name: string;
@@ -36,7 +37,7 @@ interface NavLink {
 // tell TypeScript what navLinks is
 
 export const navLinks: NavLink[] = [
-  { name: "Marketing", href: "/dashboard", icon: BarChart2 },
+  { name: "Marketing", href: ClientRoutes.MARKETING, icon: BarChart2 },
   { name: "Analytics", href: "/dashboard/analytics", icon: LineChart },
   { name: "Business", href: "/dashboard/business", icon: Briefcase },
   { name: "Project", href: "/dashboard/project", icon: FolderKanban },
@@ -97,5 +98,54 @@ export const navLinks: NavLink[] = [
       { name: "API", href: "/dashboard/docs/api" },
       { name: "Guides", href: "/dashboard/docs/guides" }
     ]
+  }
+];
+
+export type MarketingCardType =
+  | "total"
+  | "visitors"
+  | "acquisition"
+  | "revenue";
+export interface IKpi {
+  title: string;
+  value: string;
+  previous: string;
+  change: string;
+  changeType?: "increase" | "decrease";
+  cardType: MarketingCardType;
+}
+
+export const kpiCards: IKpi[] = [
+  {
+    title: "Total Spend",
+    value: "$8,765",
+    previous: "$8,123",
+    change: "14.32%",
+    changeType: "decrease",
+    cardType: "total"
+  },
+  {
+    title: "Visitors",
+    value: "14,321",
+    previous: "13,245",
+    change: "14.23%",
+    changeType: "increase",
+    cardType: "visitors"
+  },
+  {
+    title: "Acquisition",
+    value: "1,203",
+    previous: "1,112",
+    change: "16.73%",
+    changeType: "increase",
+    cardType: "acquisition"
+  },
+  {
+    title: "Revenue",
+    value: "$18,765",
+    previous: "$17,432",
+    changeType: "increase",
+    change: "21.67%",
+    cardType: "revenue"
   }
 ];

@@ -5,6 +5,7 @@ export enum ApiRoutes {
 export enum ClientRoutes {
   LOGIN = "/login",
   DASHBOARD = "/dashboard",
+  MARKETING = "/dashboard/marketing",
   ANALYTICS = "/analytics",
   BUSINESS = "/business",
   PROJECT = "/project",
