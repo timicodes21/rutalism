@@ -17,7 +17,9 @@ const EmailHeader: React.FC<IProps> = ({ selected, onSelect }) => {
     setSearchText,
     allEmails,
     params,
-    paginationData
+    paginationData,
+    handleNextPage,
+    handlePreviousPage
   } = useEmailSearchAndPagination();
 
   return (
@@ -51,12 +53,18 @@ const EmailHeader: React.FC<IProps> = ({ selected, onSelect }) => {
           {/* Pagination */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span>
-              {params?.page}-{params?.limit} of {paginationData?.totalPages}
+              {((params?.page ?? 1) - 1) * (params?.limit ?? 10) + 1}-
+              {Math.min(
+                (params?.page ?? 1) * (params?.limit ?? 10),
+                paginationData?.total ?? 0
+              )}{" "}
+              of {paginationData?.total ?? 0}
             </span>
-            <Button variant="ghost" size="icon">
+
+            <Button variant="ghost" size="icon" onClick={handlePreviousPage}>
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" onClick={handleNextPage}>
               <ChevronRight className="w-4 h-4" />
             </Button>
           </div>

@@ -52,7 +52,7 @@ export const handleApiError = (
 };
 
 export const appendQueryParamsToUrl = <
-  T extends Record<string, string | number | null>
+  T extends Partial<Record<string, string | number | null>>
 >(
   url: string,
   params: T

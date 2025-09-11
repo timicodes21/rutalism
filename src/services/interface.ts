@@ -16,3 +16,13 @@ export interface IStatusWithData<T = null> {
   status: number;
   data: IApiResponse<T>;
 }
+
+export interface IEmailCount {
+  inbox: number;
+  starred: number;
+  important: number;
+  unread: number;
+  sent: number;
+  drafts: number;
+  trash: number;
+}

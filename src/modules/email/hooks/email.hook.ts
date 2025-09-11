@@ -1,19 +1,29 @@
-import { QueryKeys } from "@/constants/queryClient";
-import { getEmailsApi, IEmail, IGetEmailParams } from "@/services/emailService";
-import { IPaginationData } from "@/services/interface";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { queryClient, QueryKeys } from "@/constants/queryClient";
+import { useEmailContext } from "@/providers/EmailProvider";
+import {
+  EmailView,
+  getEmailCountsApi,
+  getEmailsApi,
+  IEmail,
+  IGetEmailParams,
+  toggleStarApi
+} from "@/services/emailService";
+import { IApiResponse, IPaginationData } from "@/services/interface";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import { useState } from "react";
+// hooks/email.mutations.ts
 
 export const useGetEmails = (params: IGetEmailParams) => {
   const [paginationData, setPaginationData] = useState<IPaginationData>({
     page: 1,
-    limit: 15,
+    limit: 10,
     total: 0,
     totalPages: 0
   });
 
-  const getEmails = async (pageNo: number) => {
-    const response = await getEmailsApi({ ...params, page: pageNo });
+  const getEmails = async () => {
+    const response = await getEmailsApi({ ...params });
     if (response?.pagination && response?.pagination?.page) {
       setPaginationData(response?.pagination);
     }
@@ -31,7 +41,7 @@ export const useGetEmails = (params: IGetEmailParams) => {
     refetch
   } = useInfiniteQuery({
     queryKey: [QueryKeys.GET_ALL_MAILS, params],
-    queryFn: ({ pageParam = 1 }) => getEmails(pageParam),
+    queryFn: ({ pageParam = 1 }) => getEmails(),
     getNextPageParam: (lastPage, pages) => {
       return lastPage?.length !== 0 ? pages.length + 1 : null;
     },
@@ -58,4 +68,82 @@ export const useGetEmails = (params: IGetEmailParams) => {
     paginationData,
     refetch
   };
+};
+
+export const useGetEmailCounts = () => {
+  return useQuery({
+    queryKey: [QueryKeys.GET_EMAIL_COUNTS],
+    queryFn: getEmailCountsApi
+  });
+};
+// Email + paginated types
+
+interface PaginatedEmails {
+  pages: IEmail[][];
+  pageParams: unknown[];
+}
+
+export const useToggleStar = () => {
+  const { params } = useEmailContext();
+  const pageParams = useParams();
+
+  const queryParams: IGetEmailParams = {
+    ...params,
+    view: pageParams?.view as EmailView
+  };
+
+  return useMutation<
+    IApiResponse<null>, // API doesn’t return anything useful
+    Error, // error type
+    { id: string }, // only id is passed
+    { previousData?: PaginatedEmails } // rollback context
+  >({
+    mutationFn: ({ id }) => toggleStarApi(id),
+
+    onMutate: async ({ id }) => {
+      await queryClient.cancelQueries({
+        queryKey: [QueryKeys.GET_ALL_MAILS, queryParams]
+      });
+
+      const previousData = queryClient.getQueryData<PaginatedEmails>([
+        QueryKeys.GET_ALL_MAILS,
+        queryParams
+      ]);
+
+      queryClient.setQueryData<PaginatedEmails>(
+        [QueryKeys.GET_ALL_MAILS, queryParams],
+        old => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map(page =>
+              page.map(email =>
+                email.id === id
+                  ? { ...email, isStarred: !email.isStarred } // flip locally
+                  : email
+              )
+            )
+          };
+        }
+      );
+
+      return { previousData };
+    },
+
+    onError: (_err, _vars, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          [QueryKeys.GET_ALL_MAILS, queryParams],
+          context.previousData
+        );
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.GET_ALL_MAILS, queryParams]
+      });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_EMAIL_COUNTS] });
+    }
+  });
 };

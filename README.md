@@ -29,8 +29,8 @@ integration, and clean code principles.
   - Implemented real login flow using the email client api
   - Test credentials:
     ```
-    Email: babalolaolumide@gmail.com
-    Password: Olumide@1
+    Email: sarah.johnson@techcorp.com
+    Password: SecurePass123!
     ```
 
 - 📄 **Server-Side Pagination**
@@ -66,12 +66,6 @@ integration, and clean code principles.
 - Codebase is organized by **feature domains** (e.g., auth, email, layout).
 - Promotes scalability, testability, and separation of concerns.
 - Strong adherence to **SOLID principles**:
-  - **Single Responsibility**: Each module/component has a clear purpose.
-  - **Open/Closed**: Easily extendable without modifying existing logic.
-  - **Liskov Substitution**: Components are interchangeable via abstraction.
-  - **Interface Segregation**: Hooks and services are lean and focused.
-  - **Dependency Inversion**: Abstracted services decouple implementation from
-    usage.
 
 ### 🌐 Why Next.js?
 

@@ -11,7 +11,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/constants/dashboardData";
-import { LogOutIcon } from "lucide-react";
 import SidebarFooter from "./SidebarFooter";
 
 const Sidebar = () => {

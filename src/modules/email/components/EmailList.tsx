@@ -28,11 +28,15 @@ const EmailList: React.FC<IProps> = ({ emails, isLoading }) => {
           onAction={() => {}}
         />
       )}
+
       {emails.map(email => (
         <EmailRow
+          id={email?.id}
           sender={email?.from}
           subject={email?.subject}
           time={email?.timestamp}
+          read={email?.isRead}
+          starred={email?.isStarred}
         />
       ))}
     </div>

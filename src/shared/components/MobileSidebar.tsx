@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { LogOutIcon, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { navLinks } from "@/constants/dashboardData";

@@ -13,11 +13,13 @@ import {
   Briefcase,
   Megaphone,
   Star,
-  Plus
+  Plus,
+  StarIcon
 } from "lucide-react";
 import React from "react";
 import { ClientRoutes } from "@/constants/routes";
 import { Button } from "@/components/ui/button";
+import { useGetEmailCounts } from "../hooks/email.hook";
 
 type NavItem = {
   label: string;
@@ -25,13 +27,6 @@ type NavItem = {
   icon: React.ElementType;
   badge?: number;
 };
-
-const primary: NavItem[] = [
-  { label: "Inbox", href: ClientRoutes.EMAIL_INBOX, icon: Inbox, badge: 12 },
-  { label: "Sent", href: "/dashboard/apps/email/sent", icon: Send },
-  { label: "Drafts", href: "/inbox/drafts", icon: FileText, badge: 2 },
-  { label: "Trash", href: "/inbox/trash", icon: Trash2 }
-];
 
 const categories: NavItem[] = [
   { label: "Analytics", href: "/inbox/c/analytics", icon: BarChart2 },
@@ -43,6 +38,41 @@ const categories: NavItem[] = [
 
 const MailSidebar = ({ className }: { className?: string }) => {
   const pathname = usePathname();
+
+  const { data } = useGetEmailCounts();
+
+  const primary: NavItem[] = [
+    {
+      label: "Inbox",
+      href: ClientRoutes.EMAIL_INBOX,
+      icon: Inbox,
+      badge: data?.data?.inbox ?? 0
+    },
+    {
+      label: "Starred",
+      href: ClientRoutes.EMAIL_STARRED,
+      icon: StarIcon,
+      badge: data?.data?.starred ?? 0
+    },
+    {
+      label: "Sent",
+      href: ClientRoutes.EMAIL_SENT,
+      icon: Send,
+      badge: data?.data?.sent ?? 0
+    },
+    {
+      label: "Drafts",
+      href: ClientRoutes.EMAIL_DRAFTS,
+      icon: FileText,
+      badge: data?.data?.drafts ?? 0
+    },
+    {
+      label: "Trash",
+      href: ClientRoutes.EMAIL_TRASH,
+      icon: Trash2,
+      badge: data?.data?.trash ?? 0
+    }
+  ];
 
   return (
     <aside
