@@ -1,11 +1,9 @@
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { queryClient, QueryKeys } from "@/constants/queryClient";
-import { useEmailContext } from "@/providers/EmailProvider";
-import { ChevronLeft, ChevronRight, RotateCwIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useGetEmails } from "../hooks/email.hook";
+import { Input } from "@/components/ui/input";
+import { ChevronLeft, ChevronRight, RotateCwIcon } from "lucide-react";
+import React from "react";
+import { useEmailSearchAndPagination } from "../hooks/emailSearchAndPagination.hook";
 
 interface IProps {
   selected?: boolean;
@@ -13,31 +11,14 @@ interface IProps {
 }
 
 const EmailHeader: React.FC<IProps> = ({ selected, onSelect }) => {
-  const { params, setParams } = useEmailContext();
-  const queryParams = {
-    page: params?.page,
-    limit: params?.limit,
-    search: params?.search
-  };
-
-  const { paginationData, allEmails } = useGetEmails(queryParams);
-
-  const [searchText, setSearchText] = useState(params?.search ?? "");
-
-  // Debounce search
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setParams(prev => ({ ...prev, search: searchText, page: 1 }));
-    }, 1000);
-
-    return () => clearTimeout(handler);
-  }, [searchText, setParams]);
-
-  const refetchEmails = () => {
-    queryClient.invalidateQueries({
-      queryKey: [QueryKeys.GET_ALL_MAILS, queryParams]
-    });
-  };
+  const {
+    searchText,
+    refetchEmails,
+    setSearchText,
+    allEmails,
+    params,
+    paginationData
+  } = useEmailSearchAndPagination();
 
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between px-4 py-3 border-b bg-card gap-4">
