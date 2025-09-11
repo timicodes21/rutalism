@@ -2,11 +2,6 @@ import { ApiRoutes } from "@/constants/routes";
 import { axiosInstance } from "./axios";
 import { IApiResponse, IStatusWithData } from "./interface";
 
-type LoginResponse = {
-  success: boolean;
-  token: string;
-};
-
 export interface ILoginResponse {
   user: User;
   token: string;

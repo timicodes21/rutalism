@@ -41,7 +41,7 @@ export const useGetEmails = (params: IGetEmailParams) => {
     refetch
   } = useInfiniteQuery({
     queryKey: [QueryKeys.GET_ALL_MAILS, params],
-    queryFn: ({ pageParam = 1 }) => getEmails(),
+    queryFn: () => getEmails(),
     getNextPageParam: (lastPage, pages) => {
       return lastPage?.length !== 0 ? pages.length + 1 : null;
     },

@@ -24,7 +24,7 @@ const EmailRow = ({
   onSelect,
   id
 }: EmailRowProps) => {
-  const { mutate, isPending } = useToggleStar();
+  const { mutate } = useToggleStar();
 
   const handleToggleStar = () => {
     mutate({ id });

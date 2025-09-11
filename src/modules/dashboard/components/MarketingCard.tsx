@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle
