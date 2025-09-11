@@ -1,10 +1,22 @@
 import { QueryKeys } from "@/constants/queryClient";
 import { getEmailsApi, IEmail, IGetEmailParams } from "@/services/emailService";
+import { IPaginationData } from "@/services/interface";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export const useGetEmails = (params: IGetEmailParams) => {
+  const [paginationData, setPaginationData] = useState<IPaginationData>({
+    page: 1,
+    limit: 15,
+    total: 0,
+    totalPages: 0
+  });
+
   const getEmails = async (pageNo: number) => {
     const response = await getEmailsApi({ ...params, page: pageNo });
+    if (response?.pagination && response?.pagination?.page) {
+      setPaginationData(response?.pagination);
+    }
     return response?.data;
   };
 
@@ -15,7 +27,8 @@ export const useGetEmails = (params: IGetEmailParams) => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    isFetching
+    isFetching,
+    refetch
   } = useInfiniteQuery({
     queryKey: [QueryKeys.GET_ALL_MAILS, params],
     queryFn: ({ pageParam = 1 }) => getEmails(pageParam),
@@ -41,6 +54,8 @@ export const useGetEmails = (params: IGetEmailParams) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isFetching
+    isFetching,
+    paginationData,
+    refetch
   };
 };

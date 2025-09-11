@@ -38,8 +38,8 @@ const SidebarFooter = () => {
             variant="ghost"
             className="w-full justify-start font-normal space-x-2"
           >
-            <LogOutIcon className="w-4 h-4" />
-            <span>Logout</span>
+            <LogOutIcon className="w-4 h-4 text-red-500" />
+            <span className="text-red-500 font-medium text-sm">Logout</span>
           </Button>
         </AlertDialogTrigger>
 

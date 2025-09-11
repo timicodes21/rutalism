@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import MobileSidebar from "./MobileSidebar";
 import DashboardHeader from "./DashboardHeader";
+import { useAuthGuard } from "../hooks/authGuard.hook";
 
 interface IProps {
   children: React.ReactNode;
@@ -11,6 +12,9 @@ interface IProps {
 
 const DashboardLayout = ({ children }: IProps) => {
   const [open, setOpen] = useState(false);
+
+  // Check for auth routes
+  useAuthGuard();
 
   return (
     <div className="flex h-screen bg-background text-foreground">
