@@ -51,6 +51,7 @@ axiosInstance.interceptors.request.use(
         newConfig.headers.Authorization = `Bearer ${token}`;
       }
     }
+
     return newConfig;
   },
   (error: AxiosError): Promise<never> => {

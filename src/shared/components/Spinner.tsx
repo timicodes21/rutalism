@@ -1,7 +1,18 @@
-const Spinner = ({ size = 24 }: { size?: number }) => {
+import { cn } from "@/lib/utils";
+import React from "react";
+
+interface IProps {
+  size?: number;
+  className?: string;
+}
+
+const Spinner: React.FC<IProps> = ({ size = 20, className }) => {
   return (
     <div
-      className="animate-spin rounded-full border-2 border-primary border-t-transparent"
+      className={cn(
+        "animate-spin rounded-full border-2 border-white border-t-transparent",
+        className
+      )}
       style={{ width: size, height: size }}
     />
   );

@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { LogOutIcon, Menu } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { navLinks } from "@/constants/dashboardData";
@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
   AccordionContent
 } from "@/components/ui/accordion";
+import SidebarFooter from "./SidebarFooter";
 
 interface IProps {
   open: boolean;
@@ -105,17 +106,7 @@ const MobileSidebar = ({ open, setOpen }: IProps) => {
         </div>
 
         {/* Footer */}
-        <div className="mt-6 p-4 border-t border-border">
-          <div className="text-sm text-muted-foreground mb-2">
-            Are you looking for more features? Check out our pro version!
-          </div>
-          <Button
-            className="w-full bg-primary text-primary-foreground"
-            onClick={() => setOpen(false)}
-          >
-            Upgrade Now
-          </Button>
-        </div>
+        <SidebarFooter />
       </SheetContent>
     </Sheet>
   );

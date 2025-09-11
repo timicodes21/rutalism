@@ -4,8 +4,11 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { string, z, email } from "zod";
 import { useForm } from "react-hook-form";
-import { loginApi } from "@/services/authService";
+import { ILoginResponse, loginApi } from "@/services/authService";
 import { StorageKeys } from "@/constants/storeKeys";
+import toast from "react-hot-toast";
+import { handleApiResponse } from "@/shared/utils/api.util";
+import { IApiResponse } from "@/services/interface";
 
 export type LoginFormValues = {
   email: string;
@@ -26,6 +29,19 @@ export const useLogin = () => {
     resolver: zodResolver(LoginSchema)
   });
 
+  const handleSuccess = (response: IApiResponse<ILoginResponse>) => {
+    // Save token to local storage
+    localStorage.setItem(
+      StorageKeys.RUTALISM_AUTH_TOKEN,
+      response?.data?.token ?? ""
+    );
+
+    toast.success("Login Successful");
+
+    // Navigate to Dashboard
+    router.push(ClientRoutes.DASHBOARD);
+  };
+
   const onSubmit = async (data: LoginFormValues) => {
     setLoading(true);
 
@@ -34,16 +50,9 @@ export const useLogin = () => {
       password: data.password
     });
 
-    if (response?.success) {
-      // Save token to local storage
-      localStorage.setItem(
-        StorageKeys.RUTALISM_AUTH_TOKEN,
-        response?.data?.token ?? ""
-      );
-
-      // Navigate to Dashboard
-      router.push(ClientRoutes.DASHBOARD);
-    }
+    handleApiResponse(response, {
+      onSuccess: () => handleSuccess(response)
+    });
 
     setLoading(false);
   };

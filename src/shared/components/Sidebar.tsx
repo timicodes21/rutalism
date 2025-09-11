@@ -11,6 +11,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/constants/dashboardData";
+import { LogOutIcon } from "lucide-react";
+import SidebarFooter from "./SidebarFooter";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -80,14 +82,7 @@ const Sidebar = () => {
       </div>
 
       {/* Footer */}
-      <div className="mt-6 p-4 border-t border-border">
-        <div className="text-sm text-muted-foreground mb-2">
-          Are you looking for more features? Check out our pro version!
-        </div>
-        <Button className="w-full bg-primary text-primary-foreground">
-          Upgrade Now
-        </Button>
-      </div>
+      <SidebarFooter />
     </aside>
   );
 };

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Spinner from "@/shared/components/Spinner";
 import { useLogin } from "../hooks/login.hook";
 
 const LoginPage = () => {
@@ -78,7 +79,7 @@ const LoginPage = () => {
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-5 md:mt-10"
               disabled={loading}
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? <Spinner /> : "Sign In"}
             </Button>
             <p className="text-sm text-muted-foreground text-center">
               Don’t have an account?{" "}

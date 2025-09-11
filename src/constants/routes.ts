@@ -1,5 +1,6 @@
 export enum ApiRoutes {
-  LOGIN = "/auth/login"
+  LOGIN = "/auth/login",
+  EMAILS = "/emails"
 }
 
 export enum ClientRoutes {

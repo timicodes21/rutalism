@@ -7,7 +7,7 @@ type LoginResponse = {
   token: string;
 };
 
-interface ILoginResponse {
+export interface ILoginResponse {
   user: User;
   token: string;
 }
@@ -22,7 +22,7 @@ interface User {
   updated_at: string;
 }
 
-interface ILoginRequest {
+export interface ILoginRequest {
   email: string;
   password: string;
 }
