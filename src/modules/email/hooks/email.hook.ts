@@ -3,6 +3,7 @@ import { useEmailContext } from "@/providers/EmailProvider";
 import {
   EmailView,
   getEmailCountsApi,
+  getEmailLabelsApi,
   getEmailsApi,
   IEmail,
   IGetEmailParams,
@@ -145,5 +146,12 @@ export const useToggleStar = () => {
       });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.GET_EMAIL_COUNTS] });
     }
+  });
+};
+
+export const useGetEmailLabels = () => {
+  return useQuery({
+    queryKey: [QueryKeys.GET_EMAIL_LABELS],
+    queryFn: getEmailLabelsApi
   });
 };

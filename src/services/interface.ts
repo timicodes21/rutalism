@@ -26,3 +26,11 @@ export interface IEmailCount {
   drafts: number;
   trash: number;
 }
+
+export interface IEmaiLabel {
+  id: string;
+  user_id: string;
+  name: string;
+  color: string;
+  created_at: string;
+}

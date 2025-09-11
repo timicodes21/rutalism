@@ -1,7 +1,8 @@
 export enum ApiRoutes {
   LOGIN = "/auth/login",
   EMAILS = "/emails",
-  EMAIL_COUNTS = "/emails/counts"
+  EMAIL_COUNTS = "/emails/counts",
+  EMAIL_LABELS = "/emails/labels"
 }
 
 export enum ClientRoutes {
@@ -21,6 +22,7 @@ export enum ClientRoutes {
   USERS = "/users",
   DOCUMENTATION = "/documentation",
   // Email Pages
+  EMAIL_LABEL = "/dashboard/apps/email/label",
   EMAIL_INBOX = "/dashboard/apps/email/inbox",
   EMAIL_SENT = "/dashboard/apps/email/sent",
   EMAIL_STARRED = "/dashboard/apps/email/starred",

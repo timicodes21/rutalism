@@ -1,7 +1,12 @@
 import { ApiRoutes } from "@/constants/routes";
 import { appendQueryParamsToUrl } from "@/shared/utils/api.util";
 import { axiosInstance } from "./axios";
-import { IApiResponse, IEmailCount, IStatusWithData } from "./interface";
+import {
+  IApiResponse,
+  IEmaiLabel,
+  IEmailCount,
+  IStatusWithData
+} from "./interface";
 
 interface Attachment {
   id: string;
@@ -37,6 +42,7 @@ export interface IGetEmailParams {
   limit: number;
   search: string | null;
   view?: EmailView;
+  labels?: string;
   [key: string]: string | number | null | undefined;
 }
 
@@ -63,6 +69,16 @@ export const getEmailCountsApi = async (): Promise<
 export const toggleStarApi = async (emailId: string): Promise<IApiResponse> => {
   const res: Awaited<IStatusWithData> = await axiosInstance.patch(
     `${ApiRoutes.EMAILS}/${emailId}/star`
+  );
+
+  return res?.data;
+};
+
+export const getEmailLabelsApi = async (): Promise<
+  IApiResponse<IEmaiLabel[]>
+> => {
+  const res: Awaited<IStatusWithData<IEmaiLabel[]>> = await axiosInstance.get(
+    ApiRoutes.EMAIL_LABELS
   );
 
   return res?.data;

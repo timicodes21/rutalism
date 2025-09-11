@@ -1,25 +1,21 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ClientRoutes } from "@/constants/routes";
 import { cn } from "@/lib/utils";
 import {
-  Inbox,
-  Send,
   FileText,
-  Trash2,
-  Tag,
-  BarChart2,
-  Briefcase,
-  Megaphone,
-  Star,
+  Inbox,
   Plus,
-  StarIcon
+  Send,
+  StarIcon,
+  TagIcon,
+  Trash2
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
-import { ClientRoutes } from "@/constants/routes";
-import { Button } from "@/components/ui/button";
-import { useGetEmailCounts } from "../hooks/email.hook";
+import { useGetEmailCounts, useGetEmailLabels } from "../hooks/email.hook";
 
 type NavItem = {
   label: string;
@@ -28,18 +24,11 @@ type NavItem = {
   badge?: number;
 };
 
-const categories: NavItem[] = [
-  { label: "Analytics", href: "/inbox/c/analytics", icon: BarChart2 },
-  { label: "Business", href: "/inbox/c/business", icon: Briefcase },
-  { label: "Marketing", href: "/inbox/c/marketing", icon: Megaphone },
-  { label: "Starred", href: "/inbox/c/starred", icon: Star, badge: 4 },
-  { label: "Upgrade to Pro", href: "/pricing", icon: Tag }
-];
-
 const MailSidebar = ({ className }: { className?: string }) => {
   const pathname = usePathname();
 
   const { data } = useGetEmailCounts();
+  const { data: emailLabelData } = useGetEmailLabels();
 
   const primary: NavItem[] = [
     {
@@ -130,36 +119,37 @@ const MailSidebar = ({ className }: { className?: string }) => {
 
         <div>
           <div className="px-2 mb-2 text-xs font-medium text-muted-foreground">
-            Categories
+            Labels
           </div>
           <ul className="space-y-1">
-            {categories.map(item => {
-              const active = pathname === item.href;
-              const Icon = item.icon;
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "group flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors",
-                      active
-                        ? "bg-secondary text-foreground"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                    )}
-                  >
-                    <span className="flex items-center gap-3">
-                      <Icon className="h-4 w-4" />
-                      {item.label}
-                    </span>
-                    {typeof item.badge === "number" && item.badge > 0 && (
-                      <span className="inline-flex min-w-[1.5rem] justify-center rounded-full bg-secondary px-2 py-0.5 text-xs font-medium">
-                        {item.badge}
+            {emailLabelData?.data &&
+              Array.isArray(emailLabelData?.data) &&
+              emailLabelData?.data?.map(item => {
+                const active =
+                  pathname === `${ClientRoutes.EMAIL_LABEL}/${item.name}`;
+                return (
+                  <li key={item.id}>
+                    <Link
+                      href={`${ClientRoutes.EMAIL_LABEL}/${item.name}`}
+                      className={cn(
+                        "group flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors",
+                        active
+                          ? "bg-secondary text-foreground"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                      )}
+                    >
+                      <span className="flex items-center gap-3">
+                        <TagIcon
+                          className="h-4 w-4"
+                          strokeWidth={2.5}
+                          style={{ color: item.color }}
+                        />
+                        {item.name}
                       </span>
-                    )}
-                  </Link>
-                </li>
-              );
-            })}
+                    </Link>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </nav>
