@@ -33,18 +33,23 @@ const EmailRow = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-between px-4 py-3 border-b",
-        selected && "bg-muted", // highlight if selected
-        !read && "bg-white", // unread emails → white
-        read && "bg-gray-100" // read emails → light gray background
+        // Mobile → column, Tablet+ → row
+        "flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 py-3 border-b gap-2",
+        selected && "bg-muted",
+        !read && "bg-white",
+        read && "bg-gray-100"
       )}
     >
-      <div className="flex items-center gap-3 min-w-0">
+      {/* Left section */}
+      <div className="flex items-start lg:items-center gap-2 min-w-0 flex-1">
+        {/* Checkbox */}
         <Checkbox checked={selected} onCheckedChange={onSelect} />
+
+        {/* Star */}
         <button
           onClick={handleToggleStar}
           type="button"
-          className="text-muted-foreground hover:text-yellow-500 transition-colors cursor-pointer"
+          className="mt-1 lg:mt-0 text-muted-foreground hover:text-yellow-500 transition-colors cursor-pointer"
           aria-label={starred ? "Un star email" : "Star email"}
         >
           {!starred ? (
@@ -57,26 +62,38 @@ const EmailRow = ({
             />
           )}
         </button>
-        <div className="min-w-0 text-sm">
+
+        {/* Sender + Subject */}
+        <div className="flex-1 min-w-0">
+          {/* Sender */}
           <div
             className={cn(
-              "truncate",
+              "text-sm",
               !read ? "font-semibold" : "font-medium text-muted-foreground"
             )}
           >
             {sender}
           </div>
+
+          {/* Subject */}
           <div
             className={cn(
-              "truncate",
+              "text-sm break-words lg:truncate", // wraps on mobile, truncates on bigger screens
               !read ? "text-foreground" : "text-muted-foreground"
             )}
           >
             {subject}
           </div>
+
+          {/* Time on mobile */}
+          <div className="text-xs text-muted-foreground lg:hidden">{time}</div>
         </div>
       </div>
-      <div className="text-xs text-muted-foreground shrink-0">{time}</div>
+
+      {/* Time on desktop/tablet */}
+      <div className="hidden lg:block text-xs text-muted-foreground shrink-0 ml-2">
+        {time}
+      </div>
     </div>
   );
 };

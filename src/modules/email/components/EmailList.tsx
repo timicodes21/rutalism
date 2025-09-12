@@ -1,4 +1,5 @@
 import { IEmail } from "@/services/emailService";
+import { formatDate } from "@/shared/utils/formatter.util";
 import EmptyState from "@/shared/components/EmptyState";
 import Spinner from "@/shared/components/Spinner";
 import { InboxIcon } from "lucide-react";
@@ -34,7 +35,7 @@ const EmailList: React.FC<IProps> = ({ emails, isLoading }) => {
           id={email?.id}
           sender={email?.from}
           subject={email?.subject}
-          time={email?.timestamp}
+          time={formatDate(email?.timestamp)}
           read={email?.isRead}
           starred={email?.isStarred}
         />
