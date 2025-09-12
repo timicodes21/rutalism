@@ -44,6 +44,15 @@ export default [
       parserOptions: {
         project: "./tsconfig.json",
         tsconfigRootDir: __dirname
+      },
+      globals: {
+        jest: "readonly",
+        test: "readonly",
+        it: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        describe: "readonly",
+        expect: "readonly"
       }
     },
     plugins: {

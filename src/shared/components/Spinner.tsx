@@ -1,12 +1,11 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 
-interface IProps {
+interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: number;
-  className?: string;
 }
 
-const Spinner: React.FC<IProps> = ({ size = 20, className }) => {
+const Spinner: React.FC<IProps> = ({ size = 20, className, ...props }) => {
   return (
     <div
       className={cn(
@@ -14,6 +13,7 @@ const Spinner: React.FC<IProps> = ({ size = 20, className }) => {
         className
       )}
       style={{ width: size, height: size }}
+      {...props}
     />
   );
 };

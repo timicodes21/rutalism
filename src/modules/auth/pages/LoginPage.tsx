@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
+import { LoginTestIds } from "@/constants/testIds";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Spinner from "@/shared/components/Spinner";
@@ -75,11 +76,16 @@ const LoginPage = () => {
 
           <CardFooter className="flex flex-col gap-4">
             <Button
+              data-testid={LoginTestIds.SignButton}
               type="submit"
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 mt-5 md:mt-10"
               disabled={loading}
             >
-              {loading ? <Spinner /> : "Sign In"}
+              {loading ? (
+                <Spinner data-testid={LoginTestIds.Spinner} />
+              ) : (
+                "Sign In"
+              )}
             </Button>
             <p className="text-sm text-muted-foreground text-center">
               Don’t have an account?{" "}
